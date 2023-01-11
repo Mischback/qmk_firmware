@@ -51,7 +51,12 @@ enum layers {
  *           - *VI like movement*: ``hjkl``
  *           - *Gamer movement*: ``wasf`` (Yeah, I know... Crazy!)
  *         - ``KC_HOME``, ``KC_END``, ``KC_PGUP``, ``KC_PGDN``
+ *         - Indicate relevant keys with RGB, probably different colors for
+ *           pure movement, Home/End and PageUp/PageDown
  * TODO: Use ``LAYER_EDIT`` for basic editing operations
+ *         - ``KC_INS``, ``KC_DEL``
+ *           - ``KC_DEL`` might be placed **additionally** on
+ *             ``LAYER_MOVE`` -> ``D`` as this is a quite common thing...
  * TODO: Use ``LAYER_CTRL`` for F-keys and control commands, including keyboard
  *       specific configuration keys (lighting, ...):
  *         - ``NK_TOGG``: Toggles NKRO (check docs again!)
