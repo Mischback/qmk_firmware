@@ -16,3 +16,8 @@
 #       depending on the position of the DIP, but that function is meant to be
 #       overridden by keymap specific code (see ``keyboards/keychron/v4/v4.c``),
 DIP_SWITCH_ENABLE = no
+
+# The V4's keyboard code enables Mouse Keys
+# (https://docs.qmk.fm/#/feature_mouse_keys), but that feature is not used in
+# this keymap.
+MOUSEKEY_ENABLE = no
