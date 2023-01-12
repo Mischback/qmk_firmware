@@ -21,3 +21,8 @@ DIP_SWITCH_ENABLE = no
 # (https://docs.qmk.fm/#/feature_mouse_keys), but that feature is not used in
 # this keymap.
 MOUSEKEY_ENABLE = no
+
+# Enable Link Time Optimization (LTO) to reduce build size.
+#
+# Ref: https://docs.qmk.fm/#/squeezing_avr?id=squeezing-the-most-out-of-avr
+LTO_ENABLE = yes
