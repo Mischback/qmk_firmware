@@ -47,6 +47,21 @@ enum layers {
     LAYER_CTRL
 };
 
+/* The base layer has several lighting modes.
+ *
+ * Note: Order does matter here, as these modes are cycled using ``RGB_MOD``.
+ *
+ * The actual implementation of the layers is provided in
+ * ``personal_base_layer_lighting()`` and the cycling code is included in
+ * ``process_record_user()``.
+ */
+enum base_layer_mode {
+    BASE_MODE_DEFAULT = 0,
+    BASE_MODE_DARK,
+    BASE_MODE_BRIGHT,
+    BASE_MODE_MAX
+};
+
 // clang-format off
 
 /* The actual definition of the layers.
@@ -108,31 +123,80 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 /* ***** VARIABLES ****** */
+
+#ifdef RGB_MATRIX_ENABLE
 static bool lighting_on = true;
+static uint8_t base_layer_mode = BASE_MODE_DEFAULT;
+#endif // RGB_MATRIX_ENABLE
+
 
 /* ***** PROTOTYPES ***** */
-static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
+
 void keyboard_post_init_user(void);
+#ifdef RGB_MATRIX_ENABLE
+static void personal_base_layer_lighting(void);
+static void personal_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
+#endif // RGB_MATRIX_ENABLE
 bool process_record_user(uint16_t keycode, keyrecord_t *record);
 bool rgb_matrix_indicators_user(void);
 
 
+#ifdef RGB_MATRIX_ENABLE
+/* Control the lighting of the base layer.
+ *
+ * The lighting modes of the base layer may be cycled using the ``RGB_MOD`` key
+ * and include several presets.
+ *
+ * TODO: Define/implement application-specific layers:
+ *         - GIMP
+ *         - Inkscape
+ *         - KiCAD
+ *         - Blender
+ */
+static void personal_base_layer_lighting(void) {
+
+    // Start with all lights off and then activate only the desired keys/LEDs
+    // Note: BASE_MODE_DARK is effectively this, so it doesn't need to be
+    //       handled in a dedicated case.
+    rgb_matrix_set_color_all(RGB_OFF);
+
+    switch(base_layer_mode) {
+        case BASE_MODE_DEFAULT:
+            // Just the coherent indicators (ESC/RCTL)
+            personal_layer_indicator(COLOR_BASE);
+            break;
+        case BASE_MODE_BRIGHT:
+            // Shine bright like a diamond, but give the homing keys another
+            // color.
+            rgb_matrix_set_color_all(COLOR_BASE);
+            rgb_matrix_set_color(LED_KEY_F, RGB_RED);
+            rgb_matrix_set_color(LED_KEY_J, RGB_RED);
+            break;
+        default:
+            break;
+    }
+}
+
+
 /* Activate pre-defined LEDs on every layer. */
-static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
+static void personal_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
     rgb_matrix_set_color(LED_KEY_ESC, red, green, blue);
     rgb_matrix_set_color(LED_KEY_RCTL, red, green, blue);
 }
+#endif // RGB_MATRIX_ENABLE
 
 
 /* Custom keyboard initialization code. */
 void keyboard_post_init_user(void) {
 
+#ifdef RGB_MATRIX_ENABLE
     /* Set a common baseline for the lighting.
      *
      * Ref: https://docs.qmk.fm/#/feature_rgb_matrix?id=indicators-without-rgb-matrix-effect
      */
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
     rgb_matrix_sethsv_noeeprom(HSV_OFF);
+#endif // RGB_MATRIX_ENABLE
 }
 
 
@@ -160,6 +224,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 lighting_on = !lighting_on;
             }
             return true;
+        case RGB_MOD:
+            // RGB_MOD is not working as expected. Nonetheless, pass the
+            // keycode down the line for further processing.
+            if (!record->event.pressed) {
+                // Just cycle through the modes forward.
+                // TODO: Enable backwards cycling through Shift/Alt?
+                if ((base_layer_mode + 1) >= BASE_MODE_MAX) {
+                    base_layer_mode = BASE_MODE_DEFAULT;
+                } else {
+                    base_layer_mode += 1;
+                }
+            }
+            return true;
 #endif // RGB_MATRIX_ENABLE
         default:
             return true;
@@ -185,12 +262,11 @@ bool rgb_matrix_indicators_user(void) {
 
     switch (get_highest_layer(layer_state)) {
         case LAYER_BASE:
-            rgb_matrix_set_color_all(RGB_OFF);
-            custom_layer_indicator(COLOR_BASE);
+            personal_base_layer_lighting();
             break;
         case LAYER_MOVE:
             rgb_matrix_set_color_all(RGB_OFF);
-            custom_layer_indicator(COLOR_MOVE);
+            personal_layer_indicator(COLOR_MOVE);
 
             // layer-specific lighting (see layer definition above)
             rgb_matrix_set_color(LED_KEY_H, COLOR_MOVE);
@@ -216,13 +292,13 @@ bool rgb_matrix_indicators_user(void) {
             break;
         case LAYER_EDIT:
             rgb_matrix_set_color_all(RGB_OFF);
-            custom_layer_indicator(COLOR_EDIT);
+            personal_layer_indicator(COLOR_EDIT);
 
             // layer-specific lighting (see layer definition above)
             break;
         case LAYER_CTRL:
             rgb_matrix_set_color_all(RGB_OFF);
-            custom_layer_indicator(COLOR_CTRL);
+            personal_layer_indicator(COLOR_CTRL);
 
             // layer-specific lighting (see layer definition above)
             rgb_matrix_set_color(LED_KEY_1, COLOR_CTRL);
