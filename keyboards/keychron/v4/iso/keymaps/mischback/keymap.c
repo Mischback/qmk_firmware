@@ -63,9 +63,6 @@ enum layers {
  *         - ``KC_INS``, ``KC_DEL``
  *           - ``KC_DEL`` might be placed **additionally** on
  *             ``LAYER_MOVE`` -> ``D`` as this is a quite common thing...
- * TODO: Use ``LAYER_CTRL`` for F-keys and control commands, including keyboard
- *       specific configuration keys (lighting, ...):
- *         - ``NK_TOGG``: Toggles NKRO (check docs again!)
  *
  * Reference EMPTY LAYER
 
@@ -102,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   RGB_MOD,
         RGB_TOG,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______),
 };
 
@@ -242,6 +239,7 @@ bool rgb_matrix_indicators_user(void) {
 
             rgb_matrix_set_color(LED_KEY_TAB, COLOR_CTRL_SECONDARY);
             rgb_matrix_set_color(LED_KEY_BSPC, COLOR_CTRL_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_N, COLOR_CTRL_SECONDARY);
             break;
         default:
             // This should not be reached, but if the keyboard is PINK,
