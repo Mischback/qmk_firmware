@@ -20,10 +20,11 @@
  * Actually these are just shortcuts to fit into the layer keymap without
  * overly destroying the neat columns.
  */
-#define CC_LMOVE MO(LAYER_MOVE)           // read: Custom Code Layer Move
-#define CC_CLMOV LT(LAYER_MOVE, KC_CAPS)  // read: Custom Code Hold: Layer Move, Tap: CapsLock
-#define CC_LEDIT MO(LAYER_EDIT)           // read: Custom Code Layer Edit
-#define CC_LCTRL MO(LAYER_CTRL)           // read: Custom Code Layer Control
+#define CC_LMOVE  MO(LAYER_MOVE)           // read: Custom Code Layer Move
+#define CC_CLMOV  LT(LAYER_MOVE, KC_CAPS)  // read: Custom Code Hold: Layer Move, Tap: CapsLock
+#define CC_LEDIT  MO(LAYER_EDIT)           // read: Custom Code Layer Edit
+#define CC_LCTRL  MO(LAYER_CTRL)           // read: Custom Code Layer Control
+#define CC_CAD    RCTL(RALT(KC_DEL))       // read: Custom Code Ctrl+Alt+Del
 
 /* Define colors for layer indication. */
 /* SEMANTIC */
@@ -99,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_CTRL] = LAYOUT_iso_62(
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   RGB_MOD,
         RGB_TOG,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  CC_CAD,   _______,  _______,  _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______),
 };
@@ -236,6 +237,7 @@ bool rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color(LED_KEY_0, COLOR_CTRL);
             rgb_matrix_set_color(LED_KEY_MINS, COLOR_CTRL);
             rgb_matrix_set_color(LED_KEY_EQL, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_L, COLOR_CTRL);
 
             rgb_matrix_set_color(LED_KEY_TAB, COLOR_CTRL_SECONDARY);
             rgb_matrix_set_color(LED_KEY_BSPC, COLOR_CTRL_SECONDARY);
