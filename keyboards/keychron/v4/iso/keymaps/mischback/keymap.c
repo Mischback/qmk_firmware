@@ -108,9 +108,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
+/* ***** VARIABLES ****** */
+static bool lighting_on = true;
+
 /* ***** PROTOTYPES ***** */
 static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
 void keyboard_post_init_user(void);
+bool process_record_user(uint16_t keycode, keyrecord_t *record);
 bool rgb_matrix_indicators_user(void);
 
 
@@ -133,6 +137,37 @@ void keyboard_post_init_user(void) {
 }
 
 
+/* Custom processing of keycodes.
+ *
+ * Currently this function is only used to support the custom implementation
+ * of RGB lighting.
+ *
+ * ``RGB_TOG`` is supposed to toggle the LEDs on/off, but this is not working
+ * as expected. Instead, the (keymap-specific) flag ``lighting_on`` is used to
+ * keep track of the lighting status, which is then picked up in
+ * ``rgb_matrix_indicators_user()`` below.
+ * This does work well enough for now.
+ *
+ * My rough guess would be, that this is not working because I messed something
+ * up in my ``config.h``.
+ */
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+#ifdef RGB_MATRIX_ENABLE
+        case RGB_TOG:
+            // RGB_TOG is not working as expected. Nonetheless, pass the
+            // keycode down the line for further processing.
+            if (!record->event.pressed) {
+                lighting_on = !lighting_on;
+            }
+            return true;
+#endif // RGB_MATRIX_ENABLE
+        default:
+            return true;
+    }
+}
+
+
 #ifdef RGB_MATRIX_ENABLE
 /* Control the LED lightning of the keyboard.
  *
@@ -145,6 +180,10 @@ void keyboard_post_init_user(void) {
  * FIXME: ``RGB_TOG``/``RGB_MOD`` are not working.
  */
 bool rgb_matrix_indicators_user(void) {
+    if (!lighting_on) {
+        rgb_matrix_set_color_all(RGB_OFF);
+        return false;
+    }
 
     switch (biton32(layer_state)) {
         case LAYER_BASE:
