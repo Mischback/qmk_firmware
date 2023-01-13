@@ -146,14 +146,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 /* ***** PROTOTYPES ***** */
-bool rgb_matrix_indicators_user(void);
 static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
+void keyboard_post_init_user(void);
+bool rgb_matrix_indicators_user(void);
 
 
 /* Activate pre-defined LEDs on every layer. */
 static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
     rgb_matrix_set_color(LED_KEY_ESC, red, green, blue);
     rgb_matrix_set_color(LED_KEY_RCTRL, red, green, blue);
+}
+
+
+/* Custom keyboard initialization code. */
+void keyboard_post_init_user(void) {
+
+    /* Set a common baseline for the lighting.
+     *
+     * Ref: https://docs.qmk.fm/#/feature_rgb_matrix?id=indicators-without-rgb-matrix-effect
+     */
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_noeeprom(HSV_OFF);
 }
 
 
