@@ -2,6 +2,14 @@
 // SPDX-FileCopyrightText: 2023 Mischback <dev@mischback.de>
 // SPDX-FileType: SOURCE
 
+#pragma once
+
+#ifdef RGB_MATRIX_ENABLE
+
+/* Add some general settings for the RGB matrix. */
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
+#define RGB_DISABLE_WHEN_USB_SUSPENDED
+
 /* Disable most of the RGB matrix effects.
  *
  * V4's keyboard code enables a bunch of matrix effects by default.
@@ -32,3 +40,5 @@
 #undef ENABLE_RGB_MATRIX_SOLID_SPLASH
 #undef RGB_MATRIX_FRAMEBUFFER_EFFECTS  // not longer needed without the actual effects
 #undef RGB_MATRIX_KEYPRESSES  // not longer needed without the actual effects
+                              //
+#endif  // RGB_MATRIX_ENABLE
