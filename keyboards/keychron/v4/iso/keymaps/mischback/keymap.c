@@ -11,6 +11,30 @@
 
 #include QMK_KEYBOARD_H
 
+
+/* ***** DEFINES ***** */
+
+/* Define custom keycodes.
+ *
+ * Actually these are just shortcuts to fit into the layer keymap without
+ * overly destroying the neat columns.
+ */
+#define CC_LMOVE MO(LAYER_MOVE)  // read: Custom Code Layer Move
+#define CC_LEDIT MO(LAYER_EDIT)  // read: Custom Code Layer Edit
+#define CC_LCTRL MO(LAYER_CTRL)  // read: Custom Code Layer Control
+
+/* Define colors for layer indication. */
+/* SEMANTIC */
+#define COLOR_BASE RGB_BLUE    // 0, 0, 255   / #0000ff
+#define COLOR_MOVE RGB_YELLOW  // 255, 255, 0 / #ffff00
+#define COLOR_EDIT RGB_RED     // 255, 0, 0   / #ff0000
+#define COLOR_CTRL RGB_GREEN   // 0, 255, 0   / #00ff00
+
+/* Define the LED position of given keys */
+#define LED_KEY_ESC 0
+#define LED_KEY_RCTRL 61
+
+
 /* Create common reference to the defined layers.
  *
  * Note: Order does matter here, as the layers are stacked above each other.
@@ -22,22 +46,6 @@ enum layers {
     LAYER_EDIT,
     LAYER_CTRL
 };
-
-/* Define custom keycodes.
- *
- * Actually these are just shortcuts to fit into the layer keymap without
- * overly destroying the neat columns.
- */
-#define CC_LMOVE MO(LAYER_MOVE)  // read: Custom Code Layer Move
-#define CC_LEDIT MO(LAYER_EDIT)  // read: Custom Code Layer Edit
-#define CC_LCTRL MO(LAYER_CTRL)  // read: Custom Code Layer Control
-
-/* Define colors for layer indication */
-#define COLOR_BASE RGB_BLUE    // 0, 0, 255   / #0000ff
-#define COLOR_MOVE RGB_YELLOW  // 255, 255, 0 / #ffff00
-#define COLOR_EDIT RGB_RED     // 255, 0, 0   / #ff0000
-#define COLOR_CTRL RGB_GREEN   // 0, 255, 0   / #00ff00
-
 
 // clang-format off
 
@@ -116,8 +124,8 @@ static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
 
 /* Activate pre-defined LEDs on every layer. */
 static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
-    rgb_matrix_set_color(0, red, green, blue);   // ESC
-    rgb_matrix_set_color(61, red, green, blue);  // R_CTRL
+    rgb_matrix_set_color(LED_KEY_ESC, red, green, blue);
+    rgb_matrix_set_color(LED_KEY_RCTRL, red, green, blue);
 }
 
 
