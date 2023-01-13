@@ -174,7 +174,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
  *
  * TODO: Use the LED color to indicate the actual layer, but only apply it to
  *       relevant keys.
- * FIXME: ``RGB_TOG``/``RGB_MOD`` are not working.
  */
 bool rgb_matrix_indicators_user(void) {
     if (!lighting_on) {
@@ -182,7 +181,7 @@ bool rgb_matrix_indicators_user(void) {
         return false;
     }
 
-    switch (biton32(layer_state)) {
+    switch (get_highest_layer(layer_state)) {
         case LAYER_BASE:
             rgb_matrix_set_color_all(RGB_OFF);
             custom_layer_indicator(COLOR_BASE);
