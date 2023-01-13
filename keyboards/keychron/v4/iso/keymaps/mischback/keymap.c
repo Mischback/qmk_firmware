@@ -101,3 +101,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // clang-format on
+
+/* Control the LED lightning of the keyboard.
+ *
+ * All pre-defined RGB matrix effects are disabled in ``rules.mk``. The purpose
+ * of this function is to indicate the currently active layer using the RGB
+ * matrix.
+ *
+ * TODO: Use the LED color to indicate the actual layer, but only apply it to
+ *       relevant keys.
+ * TODO: Have different *shades* of colors to indicate different keys (e.g. for
+ *       the movement layer: Have ``hjkl`` in a bright color, while having
+ *       ``Home``/``End`` a tad *dimmer*).
+ *       This might be achievable using HSV. There is a conversion function
+ *       ``hsv_to_rgb()``, as the ``rgb_matrix_set_color()`` functions only
+ *       accept RGB values.
+ */
+bool rgb_matrix_indicators_user(void) {
+
+    switch (biton32(layer_state)) {
+        case LAYER_BASE:
+            rgb_matrix_set_color_all(0, 0, 255);
+            break;
+        case LAYER_MOVE:
+            rgb_matrix_set_color_all(0, 255, 0);
+            break;
+        case LAYER_EDIT:
+            rgb_matrix_set_color_all(0, 255, 255);
+            break;
+        case LAYER_CTRL:
+            rgb_matrix_set_color_all(255, 255, 255);
+            break;
+        default:
+            // TODO: Is this really desired to be RED. Should be a designated
+            //       and otherwise unused color, probably PINK?!
+            rgb_matrix_set_color_all(255, 0, 0);
+            break;
+    }
+
+    return false;
+}
