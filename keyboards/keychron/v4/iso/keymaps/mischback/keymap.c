@@ -32,6 +32,13 @@ enum layers {
 #define CC_LEDIT MO(LAYER_EDIT)  // read: Custom Code Layer Edit
 #define CC_LCTRL MO(LAYER_CTRL)  // read: Custom Code Layer Control
 
+/* Define colors for layer indication */
+#define COLOR_BASE RGB_BLUE    // 0, 0, 255   / #0000ff
+#define COLOR_MOVE RGB_YELLOW  // 255, 255, 0 / #ffff00
+#define COLOR_EDIT RGB_RED     // 255, 0, 0   / #ff0000
+#define COLOR_CTRL RGB_GREEN   // 0, 255, 0   / #00ff00
+
+
 // clang-format off
 
 /* The actual definition of the layers.
@@ -102,6 +109,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
+/* ***** PROTOTYPES ***** */
+bool rgb_matrix_indicators_user(void);
+static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue);
+
+
+/* Activate pre-defined LEDs on every layer. */
+static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
+    rgb_matrix_set_color(0, red, green, blue);   // ESC
+    rgb_matrix_set_color(61, red, green, blue);  // R_CTRL
+}
+
+
 /* Control the LED lightning of the keyboard.
  *
  * All pre-defined RGB matrix effects are disabled in ``rules.mk``. The purpose
@@ -121,21 +140,25 @@ bool rgb_matrix_indicators_user(void) {
 
     switch (biton32(layer_state)) {
         case LAYER_BASE:
-            rgb_matrix_set_color_all(0, 0, 255);
+            rgb_matrix_set_color_all(RGB_OFF);
+            custom_layer_indicator(COLOR_BASE);
             break;
         case LAYER_MOVE:
-            rgb_matrix_set_color_all(0, 255, 0);
+            rgb_matrix_set_color_all(RGB_OFF);
+            custom_layer_indicator(COLOR_MOVE);
             break;
         case LAYER_EDIT:
-            rgb_matrix_set_color_all(0, 255, 255);
+            rgb_matrix_set_color_all(RGB_OFF);
+            custom_layer_indicator(COLOR_EDIT);
             break;
         case LAYER_CTRL:
-            rgb_matrix_set_color_all(255, 255, 255);
+            rgb_matrix_set_color_all(RGB_OFF);
+            custom_layer_indicator(COLOR_CTRL);
             break;
         default:
-            // TODO: Is this really desired to be RED. Should be a designated
-            //       and otherwise unused color, probably PINK?!
-            rgb_matrix_set_color_all(255, 0, 0);
+            // This should not be reached, but if the keyboard is PINK,
+            // something went wrong! ;)
+            rgb_matrix_set_color_all(RGB_PINK);
             break;
     }
 
