@@ -25,14 +25,32 @@
 
 /* Define colors for layer indication. */
 /* SEMANTIC */
-#define COLOR_BASE RGB_BLUE    // 0, 0, 255   / #0000ff
-#define COLOR_MOVE RGB_YELLOW  // 255, 255, 0 / #ffff00
-#define COLOR_EDIT RGB_RED     // 255, 0, 0   / #ff0000
-#define COLOR_CTRL RGB_GREEN   // 0, 255, 0   / #00ff00
+#define COLOR_BASE            RGB_WHITE
+#define COLOR_MOVE            RGB_GREEN
+#define COLOR_MOVE_SECONDARY  RGB_CYAN
+#define COLOR_EDIT            RGB_RED
+#define COLOR_CTRL            RGB_BLUE
 
 /* Define the LED position of given keys */
 #define LED_KEY_ESC 0
 #define LED_KEY_RCTRL 61
+#define LED_KEY_A 28
+#define LED_KEY_D 30
+#define LED_KEY_E 17
+#define LED_KEY_F 31
+#define LED_KEY_H 33
+#define LED_KEY_I 22
+#define LED_KEY_J 34
+#define LED_KEY_K 35
+#define LED_KEY_L 36
+#define LED_KEY_M 49
+#define LED_KEY_N 48
+#define LED_KEY_Q 15
+#define LED_KEY_R 18
+#define LED_KEY_S 29
+#define LED_KEY_U 21
+#define LED_KEY_V 46
+#define LED_KEY_W 16
 
 
 /* Create common reference to the defined layers.
@@ -154,6 +172,28 @@ bool rgb_matrix_indicators_user(void) {
         case LAYER_MOVE:
             rgb_matrix_set_color_all(RGB_OFF);
             custom_layer_indicator(COLOR_MOVE);
+
+            // layer-specific lighting
+            rgb_matrix_set_color(LED_KEY_H, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_J, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_K, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_L, COLOR_MOVE);
+
+            rgb_matrix_set_color(LED_KEY_W, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_A, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_S, COLOR_MOVE);
+            rgb_matrix_set_color(LED_KEY_F, COLOR_MOVE);
+
+            rgb_matrix_set_color(LED_KEY_U, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_I, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_Q, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_E, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_R, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_V, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_N, COLOR_MOVE_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_M, COLOR_MOVE_SECONDARY);
+
+            rgb_matrix_set_color(LED_KEY_D, COLOR_EDIT);
             break;
         case LAYER_EDIT:
             rgb_matrix_set_color_all(RGB_OFF);
