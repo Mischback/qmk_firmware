@@ -30,3 +30,5 @@
 #undef ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 #undef ENABLE_RGB_MATRIX_SPLASH
 #undef ENABLE_RGB_MATRIX_SOLID_SPLASH
+#undef RGB_MATRIX_FRAMEBUFFER_EFFECTS  // not longer needed without the actual effects
+#undef RGB_MATRIX_KEYPRESSES  // not longer needed without the actual effects
