@@ -20,9 +20,10 @@
  * Actually these are just shortcuts to fit into the layer keymap without
  * overly destroying the neat columns.
  */
-#define CC_LMOVE MO(LAYER_MOVE)  // read: Custom Code Layer Move
-#define CC_LEDIT MO(LAYER_EDIT)  // read: Custom Code Layer Edit
-#define CC_LCTRL MO(LAYER_CTRL)  // read: Custom Code Layer Control
+#define CC_LMOVE MO(LAYER_MOVE)           // read: Custom Code Layer Move
+#define CC_CLMOV LT(LAYER_MOVE, KC_CAPS)  // read: Custom Code Hold: Layer Move, Tap: CapsLock
+#define CC_LEDIT MO(LAYER_EDIT)           // read: Custom Code Layer Edit
+#define CC_LCTRL MO(LAYER_CTRL)           // read: Custom Code Layer Control
 
 /* Define colors for layer indication. */
 /* SEMANTIC */
@@ -77,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_BASE] = LAYOUT_iso_62(
         KC_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,
-        CC_LMOVE, KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,  KC_ENT,
+        CC_CLMOV, KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,  KC_ENT,
         KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,            KC_RSFT,
         KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  CC_LMOVE, CC_LEDIT, KC_RCTL),
 
