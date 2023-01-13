@@ -118,7 +118,7 @@ bool rgb_matrix_indicators_user(void);
 /* Activate pre-defined LEDs on every layer. */
 static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
     rgb_matrix_set_color(LED_KEY_ESC, red, green, blue);
-    rgb_matrix_set_color(LED_KEY_RCTRL, red, green, blue);
+    rgb_matrix_set_color(LED_KEY_RCTL, red, green, blue);
 }
 
 
