@@ -30,10 +30,27 @@
 #define COLOR_MOVE_SECONDARY  RGB_CYAN
 #define COLOR_EDIT            RGB_RED
 #define COLOR_CTRL            RGB_BLUE
+#define COLOR_CTRL_SECONDARY  RGB_GOLD
 
 /* Define the LED position of given keys */
 #define LED_KEY_ESC 0
 #define LED_KEY_RCTRL 61
+#define LED_KEY_TAB 14
+#define LED_KEY_BSPC 13
+
+#define LED_KEY_1 1
+#define LED_KEY_2 2
+#define LED_KEY_3 3
+#define LED_KEY_4 4
+#define LED_KEY_5 5
+#define LED_KEY_6 6
+#define LED_KEY_7 7
+#define LED_KEY_8 8
+#define LED_KEY_9 9
+#define LED_KEY_0 10
+#define LED_KEY_MINS 11
+#define LED_KEY_EQL 12
+
 #define LED_KEY_A 28
 #define LED_KEY_D 30
 #define LED_KEY_E 17
@@ -79,13 +96,6 @@ enum layers {
  *
  * As the DIP switch is disabled, the Mac-specific layers were removed.
  *
- * TODO: Use ``LAYER_MOVE`` for the movement function layer:
- *         - ``KC_LEFT``, ``KC_RGHT``, ``KC_DOWN``, ``KC_UP``
- *           - *VI like movement*: ``hjkl``
- *           - *Gamer movement*: ``wasf`` (Yeah, I know... Crazy!)
- *         - ``KC_HOME``, ``KC_END``, ``KC_PGUP``, ``KC_PGDN``
- *         - Indicate relevant keys with RGB, probably different colors for
- *           pure movement, Home/End and PageUp/PageDown
  * TODO: Use ``LAYER_EDIT`` for basic editing operations
  *         - ``KC_INS``, ``KC_DEL``
  *           - ``KC_DEL`` might be placed **additionally** on
@@ -155,12 +165,7 @@ static void custom_layer_indicator(uint8_t red, uint8_t green, uint8_t blue) {
  *
  * TODO: Use the LED color to indicate the actual layer, but only apply it to
  *       relevant keys.
- * TODO: Have different *shades* of colors to indicate different keys (e.g. for
- *       the movement layer: Have ``hjkl`` in a bright color, while having
- *       ``Home``/``End`` a tad *dimmer*).
- *       This might be achievable using HSV. There is a conversion function
- *       ``hsv_to_rgb()``, as the ``rgb_matrix_set_color()`` functions only
- *       accept RGB values.
+ * FIXME: ``RGB_TOG``/``RGB_MOD`` are not working.
  */
 bool rgb_matrix_indicators_user(void) {
 
@@ -173,7 +178,7 @@ bool rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color_all(RGB_OFF);
             custom_layer_indicator(COLOR_MOVE);
 
-            // layer-specific lighting
+            // layer-specific lighting (see layer definition above)
             rgb_matrix_set_color(LED_KEY_H, COLOR_MOVE);
             rgb_matrix_set_color(LED_KEY_J, COLOR_MOVE);
             rgb_matrix_set_color(LED_KEY_K, COLOR_MOVE);
@@ -198,10 +203,29 @@ bool rgb_matrix_indicators_user(void) {
         case LAYER_EDIT:
             rgb_matrix_set_color_all(RGB_OFF);
             custom_layer_indicator(COLOR_EDIT);
+
+            // layer-specific lighting (see layer definition above)
             break;
         case LAYER_CTRL:
             rgb_matrix_set_color_all(RGB_OFF);
             custom_layer_indicator(COLOR_CTRL);
+
+            // layer-specific lighting (see layer definition above)
+            rgb_matrix_set_color(LED_KEY_1, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_2, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_3, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_4, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_5, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_6, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_7, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_8, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_9, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_0, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_MINS, COLOR_CTRL);
+            rgb_matrix_set_color(LED_KEY_EQL, COLOR_CTRL);
+
+            rgb_matrix_set_color(LED_KEY_TAB, COLOR_CTRL_SECONDARY);
+            rgb_matrix_set_color(LED_KEY_BSPC, COLOR_CTRL_SECONDARY);
             break;
         default:
             // This should not be reached, but if the keyboard is PINK,
