@@ -248,6 +248,13 @@ bool rgb_matrix_indicators_user(void) {
             break;
     }
 
+    // CapsLock Indicator
+    if (host_keyboard_led_state().caps_lock) {
+        rgb_matrix_set_color(LED_KEY_CAPS, RGB_RED);
+    } else {
+        rgb_matrix_set_color(LED_KEY_CAPS, RGB_OFF);
+    }
+
     return false;
 }
 #endif // RGB_MATRIX_ENABLE
