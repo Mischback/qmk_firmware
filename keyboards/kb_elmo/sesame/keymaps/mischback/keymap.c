@@ -13,20 +13,61 @@
 
 #include QMK_KEYBOARD_H
 
+/* ***** DEFINES ***** */
+
+/* Define custom keycodes.
+ *
+ * Actually these are just shortcuts to fit into the layer keymap without
+ * overly destroying the neat columns.
+ */
+#define CC_CLMOV  LT(LAYER_MOVE, KC_CAPS)  // read: Custom Code Hold: Move, Tap: CapsLock
+
+// Dedicated keycodes for the left and right space buttons
+#define CC_LSPC   KC_SPC                   // read: Custom Code Left Space
+#define CC_RSPC   KC_SPC                   // read: Custom Code Right Space
+
+/* Create common reference to the defined layers.
+ *
+ * Note: Order does matter here, as the layers are stacked above each other.
+ *       LAYER_BASE is the root or default layer.
+ */
+enum layers {
+    LAYER_BASE,
+    LAYER_MOVE,
+    LAYER_CTRL
+};
+
+
+// clang-format off
+
+/*
+ *
+ * Reference empty layer (yank 7)
+    [LAYER_NAME] = LAYOUT_alice(
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,          _______,
+                 _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
+                 _______,          _______,          _______,          _______,   _______,          _______,                   _______
+    ),
+ */
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
-    [0] = LAYOUT_alice(
-        KC_PAUS, KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,
-        KC_PSCR, KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
-        KC_F5,   KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
-                 KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, MO(1),
-                 KC_LCTL,          KC_LALT,          KC_SPC,           KC_LGUI,  KC_SPC,           KC_RALT,                   KC_RCTL
+    [LAYER_BASE] = LAYOUT_alice(
+        KC_HOME, KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,    KC_6,      KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,
+        KC_END,  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
+        _______, CC_CLMOV, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
+                 KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_B,      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, KC_NUBS,
+                 KC_LCTL,          KC_LALT,          CC_LSPC,          KC_LGUI,   CC_RSPC,          KC_RALT,                   KC_RCTL
     ),
-    [1] = LAYOUT_alice(
-        KC_TRNS, KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,
-        KC_TRNS, KC_TRNS, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,
-                 KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_MPRV, KC_MNXT, KC_MPLY, KC_TRNS, KC_TRNS,
-                 KC_TRNS,          KC_TRNS,          KC_TRNS,          KC_TRNS, KC_TRNS,          KC_TRNS,                   KC_TRNS
+    [LAYER_MOVE] = LAYOUT_alice(
+        _______, KC_GRV,  _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP, _______, _______,   KC_HOME, KC_END,  _______, _______, _______, _______, _______,
+        _______, _______, KC_LEFT, KC_DOWN, _______, KC_RGHT, _______, KC_LEFT,   KC_DOWN, KC_UP,   KC_RGHT, _______, _______,          _______,
+                 _______, _______, _______, _______, KC_PGDN, _______, _______,   KC_PGUP, KC_PGDN, _______, _______, _______, _______, _______,
+                 _______,          _______,          _______,          _______,   _______,          _______,                   _______
     )
 };
+
+// clang-format on
