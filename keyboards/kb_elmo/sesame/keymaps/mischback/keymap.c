@@ -12,6 +12,7 @@
  */
 
 #include QMK_KEYBOARD_H
+#include "keymap_german.h"
 
 /* ***** DEFINES ***** */
 
@@ -20,7 +21,9 @@
  * Actually these are just shortcuts to fit into the layer keymap without
  * overly destroying the neat columns.
  */
-#define CC_CLMOV  LT(LAYER_MOVE, KC_CAPS)  // read: Custom Code Hold: Move, Tap: CapsLock
+#define CC_CLMO  LT(LAYER_MOVE, KC_CAPS )  // read: Custom Code Hold: Move, Tap: CapsLock
+#define CC_CLSY  MO(LAYER_SYS_DE)          // read: Custom Code: Activate SYSTEM_DE layer
+#define CC_SSFT   MO(LAYER_SYS_DE_SFT)     // read: Custom Code Shift for SYSTEM_DE layer
 
 // Dedicated keycodes for the left and right space buttons
 #define CC_LSPC   KC_SPC                   // read: Custom Code Left Space
@@ -34,6 +37,8 @@
 enum layers {
     LAYER_BASE,
     LAYER_MOVE,
+    LAYER_SYS_DE,
+    LAYER_SYS_DE_SFT,
     LAYER_CTRL
 };
 
@@ -55,10 +60,10 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
     [LAYER_BASE] = LAYOUT_alice(
-        KC_HOME, KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,    KC_6,      KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,
-        KC_END,  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
-        _______, CC_CLMOV, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
-                 KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_B,      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, KC_NUBS,
+        KC_HOME, KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,      KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,
+        KC_END,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,      KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,
+        CC_CLSY, CC_CLMO, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,      KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
+                 KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_B,      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, KC_NUBS,
                  KC_LCTL,          KC_LALT,          CC_LSPC,          KC_LGUI,   CC_RSPC,          KC_RALT,                   KC_RCTL
     ),
     [LAYER_MOVE] = LAYOUT_alice(
@@ -67,7 +72,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_LEFT, KC_DOWN, _______, KC_RGHT, _______, KC_LEFT,   KC_DOWN, KC_UP,   KC_RGHT, _______, _______,          _______,
                  _______, _______, _______, _______, KC_PGDN, _______, _______,   KC_PGUP, KC_PGDN, _______, _______, _______, _______, _______,
                  _______,          _______,          _______,          _______,   _______,          _______,                   _______
-    )
+    ),
+    [LAYER_SYS_DE] = LAYOUT_alice(
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, DE_MINS, DE_EQL,  _______,
+        _______, _______, _______, _______, _______, _______, _______, DE_Y,      _______, _______, _______, _______, DE_LBRC, DE_RBRC, DE_BSLS,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DE_SCLN, DE_QUOT,          _______,
+                 CC_SSFT, DE_Z,    _______, _______, _______, _______, _______,   _______, _______, DE_COMM, DE_DOT,  DE_SLSH, _______, _______,
+                 _______,          _______,          _______,          _______,   _______,          _______,                   _______
+    ),
+    [LAYER_SYS_DE_SFT] = LAYOUT_alice(
+        _______, _______, DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_PERC, DE_CIRC,   DE_AMPR, DE_ASTR, DE_LPRN, DE_RPRN, DE_UNDS, DE_PLUS, _______,
+        _______, _______, _______, _______, _______, _______, _______, S(DE_Y),   _______, _______, _______, _______, DE_LCBR, DE_RCBR, DE_PIPE,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DE_COLN, DE_DQUO,          _______,
+                 _______, S(DE_Z), _______, _______, _______, _______, _______,   _______, _______, DE_LABK, DE_RABK, DE_QUES, _______, _______,
+                 _______,          _______,          _______,          _______,   _______,          _______,                   _______
+    ),
 };
 
 // clang-format on
