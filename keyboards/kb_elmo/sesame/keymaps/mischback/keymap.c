@@ -22,8 +22,9 @@
  * overly destroying the neat columns.
  */
 #define CC_CLMO  LT(LAYER_MOVE, KC_CAPS )  // read: Custom Code Hold: Move, Tap: CapsLock
-#define CC_CLSY  MO(LAYER_SYS_DE)          // read: Custom Code: Activate SYSTEM_DE layer
-#define CC_SSFT   MO(LAYER_SYS_DE_SFT)     // read: Custom Code Shift for SYSTEM_DE layer
+#define CC_CLSY  MO(LAYER_SYS_DE)          // read: Custom Code Activate SYSTEM_DE layer
+#define CC_SSFT  MO(LAYER_SYS_DE_SFT)      // read: Custom Code Shift for SYSTEM_DE layer
+#define CC_CLCT  MO(LAYER_CTRL)            // read: Custom Code Activate CTRL_LAYER
 
 // Dedicated keycodes for the left and right space buttons
 #define CC_LSPC   KC_SPC                   // read: Custom Code Left Space
@@ -33,6 +34,15 @@
  *
  * Note: Order does matter here, as the layers are stacked above each other.
  *       LAYER_BASE is the root or default layer.
+ *
+ * Note: LAYER_SYS_DE / LAYER_SYS_DE_SFT
+ *       The keyboard will be attached to systems with German language settings
+ *       while having ANSI (US) keycaps applied. This is not really an issue
+ *       for acutal typing, but some of the more obscure special characters
+ *       *may* need visual reference.
+ *       The LAYER_BASE uses standard keycodes, so to match the special
+ *       characters with the keycaps' labels, ``DE_`` keycodes are used on a
+ *       dedicated layer including a dedicated *shifted* layer.
  */
 enum layers {
     LAYER_BASE,
@@ -76,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_SYS_DE] = LAYOUT_alice(
         _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, DE_MINS, DE_EQL,  _______,
         _______, _______, _______, _______, _______, _______, _______, DE_Y,      _______, _______, _______, _______, DE_LBRC, DE_RBRC, DE_BSLS,
-        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DE_SCLN, DE_QUOT,          _______,
+        _______, CC_CLCT, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DE_SCLN, DE_QUOT,          _______,
                  CC_SSFT, DE_Z,    _______, _______, _______, _______, _______,   _______, _______, DE_COMM, DE_DOT,  DE_SLSH, _______, _______,
                  _______,          _______,          _______,          _______,   _______,          _______,                   _______
     ),
@@ -85,6 +95,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, S(DE_Y),   _______, _______, _______, _______, DE_LCBR, DE_RCBR, DE_PIPE,
         _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, DE_COLN, DE_DQUO,          _______,
                  _______, S(DE_Z), _______, _______, _______, _______, _______,   _______, _______, DE_LABK, DE_RABK, DE_QUES, _______, _______,
+                 _______,          _______,          _______,          _______,   _______,          _______,                   _______
+    ),
+    [LAYER_CTRL] = LAYOUT_alice(
+        _______, KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,          _______,
+                 _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
                  _______,          _______,          _______,          _______,   _______,          _______,                   _______
     ),
 };
