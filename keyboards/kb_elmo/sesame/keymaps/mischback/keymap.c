@@ -25,6 +25,7 @@
 #define CC_CLSY  MO(LAYER_SYS_DE)          // read: Custom Code Activate SYSTEM_DE layer
 #define CC_SSFT  MO(LAYER_SYS_DE_SFT)      // read: Custom Code Shift for SYSTEM_DE layer
 #define CC_CLCT  MO(LAYER_CTRL)            // read: Custom Code Activate CTRL_LAYER
+#define CC_CAD   RCTL(RALT(KC_DEL))        // read: Custom Code Ctrl+Alt+Del
 
 // Dedicated keycodes for the left and right space buttons
 #define CC_LSPC   KC_SPC                   // read: Custom Code Left Space
@@ -100,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_CTRL] = LAYOUT_alice(
         _______, KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,
         _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______,          _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, CC_CAD,  _______, _______,          _______,
                  _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
                  _______,          _______,          _______,          _______,   _______,          _______,                   _______
     ),
